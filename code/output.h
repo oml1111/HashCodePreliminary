@@ -1,4 +1,7 @@
+#ifndef OUTPUT_ADDED
+#define OUTPUT_ADDED
 #include<vector>
+
 
 namespace TTE {
 	struct Step {
@@ -11,16 +14,18 @@ namespace TTE {
 		int r, c, s;
 		
 		Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0);
+		bool operator<(Step r);
 	};
 
 	struct Output {
 		std::vector<Step> step;
 	};
 	
-	bool operator<(Step r);
 	
 	//Applies the output in place
 	void apply(int n, int m, char* input, Output toApply);
+	void apply(int n, int m, char* input, Step toApply);
 	
 	int charVal(char c);
 };
+#endif

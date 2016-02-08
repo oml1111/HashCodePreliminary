@@ -18,7 +18,7 @@ TTE::Step::Step(int newType, int v1, int v2, int v3, int v4) {
 }
 
 
-bool TTE::Step::operator<(TTE::Step r) {
+bool operator<(TTE::Step l, TTE::Step r) {
 	return false;
 }
 
@@ -50,6 +50,35 @@ void TTE::apply(int n, int m, char* input, TTE::Output toApply){
 	}
 }
 
+
+
+void TTE::apply(int n, int m, char* input, TTE::Step toApply){
+	using namespace std;
+	// assuming input starts out empty
+	// '.' is empty
+	// '*' is painted 
+	auto cur = toApply;
+	{
+		if(cur.type==0){
+			for(int i = cur.r-cur.s; i <= cur.r+cur.s; ++i)
+				for(int j = cur.c-cur.s; j <= cur.c+cur.s; ++j)
+					input[i*m+j] = '*';
+		}
+		if(cur.type==1){
+			if(cur.r1==cur.r2){
+				for(int i = min(cur.c1,cur.c2); i <= max(cur.c1,cur.c2); ++i)
+					input[cur.r1*m+i] = '*';
+			}
+			else{
+				for(int i = min(cur.r1,cur.r2); i <= max(cur.r1,cur.r2); ++i)
+					input[i*m+cur.c1] = '*';
+			}
+		}
+		if(cur.type==2){
+			input[m*cur.r+cur.c] = '.';
+		}
+	}
+}
 
 
 int TTE::charVal(char c) {

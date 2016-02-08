@@ -1,5 +1,5 @@
-#include"greedy.h"
 #include"output.h"
+#include"greedy.h"
 #include<string>
 #include<vector>
 #define f first
@@ -28,8 +28,10 @@ pair<int, pair<int, int> > bestLineOp(int m, char* inpLine) {
 	//Format: (cost, endpoint)
 	pair<int, int> prevLowest = mp(0, 0);
 	
-	for(int i=1;i<=m;i++)
+	for(int i=1;i<=m;i++) {
 		ret = max(ret, mp(sumUpto[i] - prevLowest.f,  mp(prevLowest.s, i) ) );
+		prevLowest = min(prevLowest, mp(sumUpto[i], i) );
+	}
 	
 	return ret;
 }
@@ -46,7 +48,7 @@ struct SurfaceVector : vector<int> {
 	}
 	
 	int* operator[](int ind) {
-		return &at(ind);
+		return &at(ind*nCols);
 	}
 };
 
@@ -54,7 +56,7 @@ struct SurfaceVector : vector<int> {
 
 
 pair<int, Step> getRectangle(int n, int m, char* input) {
-	SurfaceVector sumUpto(n+1, m+1, col);
+	SurfaceVector sumUpto(n+1, m+1, 0);
 	
 	//initialize sumUpto
 	for(int i=0;i<n;i++)
@@ -63,7 +65,7 @@ pair<int, Step> getRectangle(int n, int m, char* input) {
 								+ charVal(input[i*m + j]);
 	
 	//Next actually find the result
-	pair<int, Step> ret = mp(0, Step(-1, 0, 0) );
+	pair<int, Step> ret = mp(0, Step(0, 0, 0) );
 	
 	
 	//And try the optima
@@ -87,41 +89,70 @@ pair<int, Step> getRectangle(int n, int m, char* input) {
 //Simple operation to find the best step to take
 Step simpleGetStep(int n, int m, char* input) {
 	int stepCost = 0;
-	Step ret(-1, 1, 1);
+	Step result(0, 0, 0);
 	
 	//First deal with the horizontal lines
 	for(int i=0;i<n;i++) {
-		auto ret = bestLineOP(m, input + i*m);
+		auto ret = bestLineOp(m, input + i*m);
 		
 		if(ret.f > stepCost) {
 			stepCost = ret.f;
-			ret = Step(1, i, ret.s.f, i, ret.s.s-1);
+			result = Step(1, i, ret.s.f, i, ret.s.s-1);
 		}
 	}
 	
 	//Next the vertical lines
 	for(int j=0;j<m;j++) {
-		String cstr;
+		string cstr;
 		for(int i=0;i<n;i++)
 			cstr.push_back(input[i*m + j]);
 		
-		auto ret = bestLineOP(n, cstr.c_str() );
+		auto ret = bestLineOp(n, (char*)cstr.c_str() );
 		
 		if(ret.f > stepCost) {
 			stepCost = ret.f;
-			ret = Step(1, ret.s.f, j, ret.s.s-1, j);
+			result = Step(1, ret.s.f, j, ret.s.s-1, j);
 		}
-		
 	}
+	
+	
+	//Finally just get the rectangle
+	auto ret = getRectangle(n, m, input);
+	
+	if(ret.f > stepCost)
+		result = ret.s;
+	
+	return result;
 }
 
 
 
 
 
+//----------------------------------------------------------------
+//Finally the actual greedy function
+
 
 Output TTE::greedy(int n, int m, char* input) {
-	return 0;
+	string cur(input, input + n*m);
+	Output result;
+	
+	//Now just start greedily picking the steps
+	while(cur.find('#') != string::npos ) {
+		Step curStep = simpleGetStep(n, m, (char*)cur.c_str() );
+		result.step.push_back(curStep);
+		
+		apply(n, m, (char*)cur.c_str(), curStep );
+	}
+	
+	//Finally create add the erasures
+	for(int i=0;i<n;i++)
+		for(int j=0;j<m;j++)
+			if(input[i*m+j] == '.' && cur[i*m+j] == '*')
+				result.step.push_back(Step(2, i, j) );
+	
+	//Aaaand we're done
+	return result;
 }
 
 
