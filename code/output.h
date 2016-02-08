@@ -15,4 +15,6 @@ namespace TTE {
 		std::vector<Step> step;
 	};
 	
+	//Applies the output in place
+	void apply(int n, int m, char* input, Output toApply);
 };
