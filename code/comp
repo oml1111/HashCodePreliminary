@@ -1,0 +1,4 @@
+#!/bin/bash
+ulimit -s unlimited
+g++ -o visual visual.cpp -O2 -lSDL -std=c++11
+
