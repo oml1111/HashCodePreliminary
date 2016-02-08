@@ -40,16 +40,33 @@ pair<int, pair<int, int> > bestLineOp(int m, char* inpLine) {
 
 
 
+//------------------------------------------------------
+//Process input to get the best rectangle to place
+
+struct SurfaceVector : vector<int> {
+};
+
+pair<int, Step> getRectangle(int n, int m, char* input) {
+	vector<int> sumUpto((n+1) * (m+1), 0);
+	
+	//initialize sumUpto
+	for(int i=0;i<n;i++)
+		for(int j=0;j<m;j++) {
+			
+		}
+};
+
+
 
 
 //Simple operation to find the best step to take
 Step simpleGetStep(int n, int m, char* input) {
-	
+	return Step(1, 1, 1);
 }
 
 
 int greedy(int n, int m, char* input) {
-	
+	return 0;
 }
 
 

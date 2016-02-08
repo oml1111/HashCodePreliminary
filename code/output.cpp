@@ -1,6 +1,6 @@
 #include"output.h"
 
-TTE::Step::Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0) {
+TTE::Step::Step(int newType, int v1, int v2, int v3, int v4) {
 	type = newType;
 	if(newType == 0) {
 		r = v1, c = v2;
@@ -19,6 +19,7 @@ TTE::Step::Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0) {
 
 
 void TTE::apply(int n, int m, char* input, TTE::Output toApply){
+	using namespace std;
 	// assuming input starts out empty
 	// '.' is empty
 	// '*' is painted 
