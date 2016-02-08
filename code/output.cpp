@@ -1,6 +1,6 @@
 #include"output.h"
 
-TTE::Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0) {
+TTE::Step::Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0) {
 	type = newType;
 	if(newType == 0) {
 		r = v1, c = v2;
