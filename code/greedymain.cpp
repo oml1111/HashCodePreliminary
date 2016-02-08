@@ -24,6 +24,7 @@ int main() {
 	
 	Output steps = greedy(n, m, (char*)input.c_str() );
 	
+	cout << steps.step.size() << '\n';
 	for(auto step : steps.step) {
 		if(step.type == 0)
 			cout << "PAINT_SQUARE " << step.r << ' ' << step.c << ' ' << step.s << '\n';
