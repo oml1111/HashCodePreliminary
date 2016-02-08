@@ -12,7 +12,7 @@ namespace TTE {
 	};
 
 	struct Output {
-		vector<Step> step;
+		std::vector<Step> step;
 	};
 	
 };
