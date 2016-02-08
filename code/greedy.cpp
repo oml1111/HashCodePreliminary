@@ -19,11 +19,7 @@ pair<int, pair<int, int> > bestLineOp(int m, char* inpLine) {
 	vector<int> sumUpto(m+1, 0);
 	
 	for(int i=0;i<m;i++) {
-		int curcost = 0;
-		if(inpLine[i] == '.') curcost = -1;
-		if(inpLine[i] == '#') curcost = 1;
-		
-		sumUpto[i+1] = sumUpto[i] + 1;
+		sumUpto[i+1] = sumUpto[i] + charVal(inpLine[i]);
 	}
 	
 	//Next actually get the result
@@ -44,17 +40,33 @@ pair<int, pair<int, int> > bestLineOp(int m, char* inpLine) {
 //Process input to get the best rectangle to place
 
 struct SurfaceVector : vector<int> {
+	int nCols;
+	SurfaceVector(int n, int m, int val) : vector<int>(n*m, val) {
+		nCols = m;
+	}
+	
+	int* operator[](int ind) {
+		return &at(ind);
+	}
 };
 
+
+
+
 pair<int, Step> getRectangle(int n, int m, char* input) {
-	vector<int> sumUpto((n+1) * (m+1), 0);
+	SurfaceVector sumUpto(n+1, m+1, col);
 	
 	//initialize sumUpto
 	for(int i=0;i<n;i++)
 		for(int j=0;j<m;j++) {
+			int curval = ;
 			
+			sumUpto[i+1][j+1] = sumUpto[i][j+1] + sumUpto[i+1][j] - sumUpto[i][j]
+								+ charVal(input[i*m + j]);
 		}
 };
+
+
 
 
 
@@ -65,7 +77,7 @@ Step simpleGetStep(int n, int m, char* input) {
 }
 
 
-int greedy(int n, int m, char* input) {
+int TTE::greedy(int n, int m, char* input) {
 	return 0;
 }
 

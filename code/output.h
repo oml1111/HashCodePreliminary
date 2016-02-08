@@ -19,4 +19,6 @@ namespace TTE {
 	
 	//Applies the output in place
 	void apply(int n, int m, char* input, Output toApply);
+	
+	int charVal(char c);
 };

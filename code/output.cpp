@@ -47,6 +47,15 @@ void TTE::apply(int n, int m, char* input, TTE::Output toApply){
 
 
 
+int TTE::charVal(char c) {
+	if(c == '*') return 0;
+	if(c == '.') return -1;
+	if(c == '#') return 1;
+	throw 1;
+}
+
+
+
 
 
 
