@@ -7,14 +7,19 @@ TTE::Step::Step(int newType, int v1, int v2, int v3, int v4) {
 		s = v3;
 	}
 	else if(newType == 1) {
-		r1=v1, r2=v2;
-		c1=v3, c2=v4;
+		r1=v1, c1=v2;
+		r2=v3, c2=v4;
 	}
 	else if(newType == 2) {
 		r = v1, c = v2;
 	}
 	else
 		throw 1;
+}
+
+
+bool TTE::Step::operator<(TTE::Step r) {
+	return false;
 }
 
 

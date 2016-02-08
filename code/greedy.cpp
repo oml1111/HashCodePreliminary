@@ -58,12 +58,25 @@ pair<int, Step> getRectangle(int n, int m, char* input) {
 	
 	//initialize sumUpto
 	for(int i=0;i<n;i++)
-		for(int j=0;j<m;j++) {
-			int curval = ;
-			
+		for(int j=0;j<m;j++)
 			sumUpto[i+1][j+1] = sumUpto[i][j+1] + sumUpto[i+1][j] - sumUpto[i][j]
 								+ charVal(input[i*m + j]);
-		}
+	
+	//Next actually find the result
+	pair<int, Step> ret = mp(0, Step(-1, 0, 0) );
+	
+	
+	//And try the optima
+	for(int len = 1; len <= 41; len+=2)
+		for(int i=0; i+len <= n; i++)
+			for(int j=0; j+len <= m; j++) {
+				int cval = sumUpto[i+len][j+len] - sumUpto[i][j+len] - sumUpto[i+len][j] + sumUpto[i][j];
+				
+				if(cval > ret.f)
+					ret = mp(cval, Step(0, i+len/2, j+len/2, len/2) );
+			}
+	
+	return ret;
 };
 
 
@@ -73,11 +86,41 @@ pair<int, Step> getRectangle(int n, int m, char* input) {
 
 //Simple operation to find the best step to take
 Step simpleGetStep(int n, int m, char* input) {
-	return Step(1, 1, 1);
+	int stepCost = 0;
+	Step ret(-1, 1, 1);
+	
+	//First deal with the horizontal lines
+	for(int i=0;i<n;i++) {
+		auto ret = bestLineOP(m, input + i*m);
+		
+		if(ret.f > stepCost) {
+			stepCost = ret.f;
+			ret = Step(1, i, ret.s.f, i, ret.s.s-1);
+		}
+	}
+	
+	//Next the vertical lines
+	for(int j=0;j<m;j++) {
+		String cstr;
+		for(int i=0;i<n;i++)
+			cstr.push_back(input[i*m + j]);
+		
+		auto ret = bestLineOP(n, cstr.c_str() );
+		
+		if(ret.f > stepCost) {
+			stepCost = ret.f;
+			ret = Step(1, ret.s.f, j, ret.s.s-1, j);
+		}
+		
+	}
 }
 
 
-int TTE::greedy(int n, int m, char* input) {
+
+
+
+
+Output TTE::greedy(int n, int m, char* input) {
 	return 0;
 }
 
