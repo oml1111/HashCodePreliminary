@@ -9,6 +9,8 @@ namespace TTE {
 		int type;
 		int r1, r2, c1, c2;
 		int r, c, s;
+		
+		Step(int newType, int v1, int v2, int v3 = 0, int v4 = 0)
 	};
 
 	struct Output {

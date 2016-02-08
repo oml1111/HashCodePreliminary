@@ -39,6 +39,9 @@ pair<int, pair<int, int> > bestLineOp(int m, char* inpLine) {
 }
 
 
+
+
+
 //Simple operation to find the best step to take
 Step simpleGetStep(int n, int m, char* input) {
 	
